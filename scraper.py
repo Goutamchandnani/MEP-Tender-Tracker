@@ -48,7 +48,7 @@ MEP_KEYWORDS = [
 HEADERS = {
     "Content-Type": "application/json",
     "Accept": "application/json",
-    "User-Agent": "MEPTenderTracker/1.0",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
 }
 
 
@@ -58,18 +58,14 @@ def _today_iso() -> str:
 
 
 def _build_payload(keyword: str, start: int = 0, size: int = 50) -> dict:
-    """Build the v2 API payload for a given keyword.
-    We use publishedFrom to focus on the last 6 months of data, which
-    ensures we find fresh and upcoming (future) tenders rather than
-    old awarded contracts.
-    """
-    # Look back 6 months for published tenders to find current opportunities
-    six_months_ago = (datetime.now(timezone.utc) - timedelta(days=180)).strftime("%Y-%m-%d %H:%M:%S")
+    """Build the v2 API payload for a given keyword."""
+    # Look back 12 months for published tenders to ensure we find current opportunities
+    # Use YYYY-MM-DD format which is more standard for this API
+    one_year_ago = (datetime.now(timezone.utc) - timedelta(days=365)).strftime("%Y-%m-%d")
     
     return {
         "keyword": keyword,
-        "stages": ["tender"],       # Focus on tender stage
-        "publishedFrom": six_months_ago,
+        "publishedFrom": one_year_ago,
         "start": start,
         "size": size,
     }
@@ -174,7 +170,7 @@ def fetch_tenders_for_keyword(keyword: str, max_pages: int = 2) -> list[dict]:
                 CONTRACTS_FINDER_URL,
                 json=payload,
                 headers=HEADERS,
-                timeout=30,
+                timeout=60, # Increased timeout for slow government API
             )
             resp.raise_for_status()
             data = resp.json()
