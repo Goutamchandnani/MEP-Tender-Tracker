@@ -1,0 +1,23 @@
+# Environment variables
+.env
+
+# Database
+*.db
+tenders.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Deployment
+*.log
