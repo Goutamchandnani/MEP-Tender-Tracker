@@ -15,34 +15,15 @@ MEP_KEYWORDS = [
     "MEP",
     "mechanical",
     "electrical",
-    "electricity",
     "plumbing",
-    "heating",
     "HVAC",
     "building services",
     "M&E",
-    "ventilation",
-    "air conditioning",
-    "drainage",
-    "BMS",
-    "building automation",
     "fire alarms",
-    "fire protection",
-    "sprinkler systems",
-    "emergency lighting",
     "security systems",
-    "CCTV",
-    "EV charging",
     "solar PV",
     "heat pumps",
-    "district heating",
     "boiler replacement",
-    "switchgear",
-    "rewiring",
-    "water treatment",
-    "legionella",
-    "generator",
-    "UPS systems",
 ]
 
 HEADERS = {
@@ -156,7 +137,7 @@ def _parse_item(item: dict, keyword: str) -> dict | None:
     }
 
 
-def fetch_tenders_for_keyword(keyword: str, max_pages: int = 2) -> list[dict]:
+def fetch_tenders_for_keyword(keyword: str, max_pages: int = 1) -> list[dict]:
     """Fetch live MEP tenders for a single keyword (paginated)."""
     results = []
     page_size = 50
